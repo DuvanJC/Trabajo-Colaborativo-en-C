@@ -222,22 +222,106 @@ int cadenaCalificar(char *expresion){
      
 }
 
+void numExcluido(char *inicio, char *fin, char *excluido){
+    int sInicio=validarNumeros(inicio);
+    int sFin=validarNumeros(fin);
+    int sExcluido=validarNumeros(excluido);
+    if(sInicio==0 && sFin==0 && sExcluido==0){
+        int inicio1 = atoi(inicio); 
+        int fin1= atoi(fin);
+        int excluido1= atoi(excluido);
+        if(inicio1<fin1){
+            int sum=0;
+            int cont=0;
+            int posicion=0;
+            int separar=0;
+            for(int i=inicio1; i<=fin1;i++){
+                posicion=i;
+                while(posicion){
+                    separar=posicion%10;
+                    posicion=posicion/10;
+                    if(separar==excluido1){
+                        cont=cont+1;
+                    }else{
+                        sum=sum+separar;
+                    }
+                }
+            }
+            printf("El total de la suma es: %i y los digitos ignorados fueron: %i \n", sum, cont);
+        }else{
+            printf("El numero del final debe ser mayor al numero de inicio\n");
+        }     
+    }else{
+        printf("Digite solo numeros\n");
+    }
+}
+
+char* Fibonacci(int n) {
+    
+        char* cadena = " ";
+        char* s1 = " ";
+        char* s2 = " ";
+        if(n == 0) {
+            cadena = "0";
+        }
+
+        if(n == 1) {
+            cadena = "1";
+        }
+
+        if(n >= 2) {
+            s1 = Fibonacci(n - 1);
+            s2 = Fibonacci(n - 2);
+            const size_t len1 = strlen(s1);
+            const size_t len2 = strlen(s2);
+            char* resultado = malloc(len1 + len2 + 1);
+            memcpy(resultado, s1, len1);
+            memcpy(resultado + len1, s2, len2 + 1);
+            cadena = resultado;
+        }
+    return cadena;
+        
+    
+
+    
+}
+
+int Find(char* cadena1, char* cadena2) {
+    char* busqueda = NULL;
+    busqueda = strstr(cadena1, cadena2);
+    int i = 0;
+    while (busqueda!= 0) {
+        i++;
+        busqueda = strstr(busqueda + 1, cadena2);
+    }
+    return i;
+
+}
+
+
 void mainMenu(){
    
-    int peso, number, genero;
+    int peso, numbero, genero;
     double estatura;
-    char validar;
-    char validar2;
-    char validar7;
+    char *validar;
+    char *validar2;
+    char *validar5;
+    char *validar51;
+    char *validar52;
+    char *validar7;
     char option;
+    int number = 0;
+    int veces = 0;
+    char p[128];
+    
 
     char *mainMenu1= "<<<MENU PRINCIPAL>>>\n\n"
     "1. Numeros Primos\n"
     "2. Numero Egolatra\n" 
     "3. Numero Magico\n"
-    "4. Indice de MAsa Corporal\n"
-    "5. ----\n"
-    "6. ----\n"
+    "4. Indice de Masa Corporal\n"
+    "5. Suma de digitos no C\n"
+    "6. Secuencia de Palabras Fibonacci\n"
     "7. Cadena para Calificar\n"
     "Digite Opcion ([s/S]-Salir)...\n";
     
@@ -266,18 +350,18 @@ void mainMenu(){
                 printf( "\nHa seleccionado Numero Magico\n");
                 printf( "\nIntroduzca un numero entero:");   
                 
-                    scanf( "%d", &number );
-                    if (number<0||number>32767) {
+                    scanf( "%d", &numbero );
+                    if (numbero<0||numbero>32767) {
                         printf("Error!... el numero es menor a cero(0) o demasiado grande.");
                         
                 } else {
                         printf("Numero valido :)\n");
-                        int answer= mayoraMenor(number)-menoraMayor(number);
-                        printf("%d - %d = %d\n",mayoraMenor(number),menoraMayor(number),answer);
-                        if (number==answer) {
-                            printf("%d  Es un Numero magico!!!\n", number);
+                        int answer= mayoraMenor(numbero)-menoraMayor(numbero);
+                        printf("%d - %d = %d\n",mayoraMenor(numbero),menoraMayor(numbero),answer);
+                        if (numbero==answer) {
+                            printf("%d  Es un Numero magico!!!\n", numbero);
                     } else {
-                            printf("%d NO es un numero magico :c\n", number);
+                            printf("%d NO es un numero magico :c\n", numbero);
                     }       
                 }
                 break;
@@ -301,6 +385,40 @@ void mainMenu(){
                 }
                 break;
                 
+            case '5':
+                printf("Ha escogido la opcion numero cinco \n");
+                printf("Digite el numero de inicio \n");
+                scanf("%s", &validar5);
+                fflush(stdin);
+                
+                printf("Digite el numero de fin \n");
+                scanf("%s", &validar51);
+                fflush(stdin);
+                
+                printf("Digite el numero a no tener en cuenta \n");
+                scanf("%s", &validar52);
+                fflush(stdin);
+                
+                numExcluido(&validar5 , &validar51, &validar52);
+                break;
+                
+            case '6':
+                printf("\nIngrese numero de sucecion Fibonacci menor a 13: ");
+                scanf("%d", &number);
+                if (number<=13) {
+                    char* res = Fibonacci(number);
+                    printf("%s", res);
+                    printf("\nIngrese secuencia de bits: ");
+                    scanf("%s", p, sizeof(p));
+                    veces = Find(res, p);
+                    printf("Se encuentra la secuencia %s - %d veces", p, veces);
+                    getchar();
+                }else{
+                    printf("Error!...  El numero debe ser menor a 13");
+                    }
+                break;
+                
+                 
             case '7':
                 printf("Ha escogido la opcion numero siete \n");
                 printf("Digite la expresion a calcular \n");
